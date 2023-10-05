@@ -1,27 +1,35 @@
-let myLeads = [];
+let mySites = []
 const inputEl = document.getElementById("input-el");
 const inputBtn = document.getElementById("input-btn");
-let textEl = document.getElementById("text");
 const ulEl = document.getElementById("ul-el");
 const clearBtn = document.getElementById("clear-btn")
+const outputBtn = document.getElementById("output-btn")
 
 inputBtn.addEventListener("click", function (){
-    //ulEl.innerHTML += '<li><a target="_blank" href="'+inputEl.value+'">' + inputEl.value + '</a></li>';
-    ulEl.innerHTML += `
-        <li>
-            <a target="_blank" href="${inputEl.value}">
-                ${inputEl.value}
-            </a>
-        </li>`;
-    // const li = document.createElement("li")
-    // li.textContent = inputEl.value
-    // ulEl.append(li)
+    mySites.push(inputEl.value); 
+    ulEl.innerHTML += `<li><a href=${inputEl.value} target="_blank">${inputEl.value}</a>`
     inputEl.value = null;
+    localStorage.setItem("Sites", JSON.stringify(mySites))
+})
+
+outputBtn.addEventListener("click", function () {
+    renderSites()
 })
 
 clearBtn.addEventListener("click", function (){
-    ulEl.innerHTML = "";
+    ulEl.innerHTML = ""
+    localStorage.clear()
 })
+
+function renderSites(){
+    let sites = localStorage.getItem("Sites")
+    sites = JSON.parse(sites)
+
+    ulEl.innerHTML = "";
+    for (let i=0; i < sites.length; i++){
+        ulEl.innerHTML += `<li><a href=${sites[i]} target="_blank">${sites[i]}</a>`
+    }
+}
 
 
 
